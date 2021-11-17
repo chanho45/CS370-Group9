@@ -17,6 +17,8 @@ public class Map {
         map = new MapView(context, MapRenderMode.VECTOR);
         pinLayer = new MapElementLayer();
         polylineLayer = new MapElementLayer();
+
+        map.setCredentialsKey(BuildConfig.CREDENTIALS_KEY);
         map.getLayers().add(pinLayer);
         map.getLayers().add(polylineLayer);
     }
