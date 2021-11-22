@@ -22,6 +22,7 @@ android {
         }
         buildTypes.each{
             it.buildConfigField "String", "CREDENTIALS_KEY", "\"$credentialsKey\""
+            it.buildConfigField "String", "MTA_KEY", "\"$credentialsKey2\""
         }
     }
     compileOptions {
