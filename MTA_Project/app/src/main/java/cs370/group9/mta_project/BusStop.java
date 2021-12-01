@@ -23,4 +23,7 @@ public class BusStop extends MapIcon {
         Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.stop);
         this.setImage(new MapImage(icon));
     }
+
+    public String getId() { return id; }
+    public BusRoute[] getRoutes(){ return routes; }
 }

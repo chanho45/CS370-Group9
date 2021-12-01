@@ -15,12 +15,12 @@ public class Map {
 
     public Map(Context context){
         map = new MapView(context, MapRenderMode.VECTOR);
-        pinLayer = new MapElementLayer();
         polylineLayer = new MapElementLayer();
+        pinLayer = new MapElementLayer();
 
         map.setCredentialsKey(BuildConfig.CREDENTIALS_KEY);
-        map.getLayers().add(pinLayer);
         map.getLayers().add(polylineLayer);
+        map.getLayers().add(pinLayer);
     }
 
     public MapView getMapView(){ return map; }
