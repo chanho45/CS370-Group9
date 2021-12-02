@@ -12,19 +12,19 @@ classes, functionality, and descriptions on here
 
 ## Classes
 
-### Bus Class
+## Bus Class
 
 Bus Icon which will be displayed on the map
 
 > public class Bus extends [com.microsoft.maps.MapIcon](https://docs.microsoft.com/ko-kr/bingmaps/sdk-native/map-control-api/mapicon-class)
 
-#### Constructor
+### Constructor
 
 > Bus(BusRoute route, Geopoint location, Context context)
 
-#### Properties
+### Properties
 
-##### Route
+#### Route
 
 Bus Route of the given Bus Icon
 
@@ -32,46 +32,46 @@ Bus Route of the given Bus Icon
 
 
 
-### BusRoute Class
+## BusRoute Class
 
 Represents the informations of a bus route
 
 > public class BusRoute
 
-#### Constructor
+### Constructor
 
 > BusRoute(String id)
 
-#### Properties
+### Properties
 
-##### id
+#### id
 
 id of the bus route
 
 > String getId()
 
-##### color
+#### color
 
 color of the bus route
 
 > void setColor(int color)
 > int getColor()
 
-##### name
+#### name
 
 the name of the bus route
 
 > void setName(String name)
 > String getName()
 
-##### routeNumber
+#### routeNumber
 
 route number of the bus route
 
 > void setRouteNumber(String routeNumber)
 > String getRouteNumber()
 
-##### description
+#### description
 
 simple description of the bus route
 
@@ -80,21 +80,21 @@ simple description of the bus route
 
 
 
-### BusStop Class
+## BusStop Class
 
-#### Constructor
+### Constructor
 
 > BusStop(String name, String id, BusRoute[] routes, Geopoint location, Context context)
 
-#### Properties
+### Properties
 
-##### id
+#### id
 
 code that identifies the bus stop
 
 > String getId()
 
-##### routes
+#### routes
 
 bus routes that stop in this bus stop
 
@@ -102,21 +102,21 @@ bus routes that stop in this bus stop
 
 
 
-### Map Class
+## Map Class
 
-#### Constructor
+### Constructor
 
 > Map(Context context)
 
-#### Properties
+### Properties
 
-##### map
+#### map
 
 [com.microsoft.maps.MapView](https://docs.microsoft.com/ko-kr/bingmaps/sdk-native/map-control-api/mapview-class) contains the functionality within the Map
 
 > MapView getMapView()
 
-##### pinLayer
+#### pinLayer
 
 [com.microsoft.maps.MapElementLayer](https://docs.microsoft.com/ko-kr/bingmaps/sdk-native/map-control-api/mapelementlayer-class) Layer that gathers the MapIcons displayed in the map
 
@@ -127,7 +127,7 @@ adding push pin to the layer
 clear the push pins in the layer
 > void clearPin()
 
-##### polylineLayer
+#### polylineLayer
 
 [com.microsoft.maps.MapElementLayer](https://docs.microsoft.com/ko-kr/bingmaps/sdk-native/map-control-api/mapelementlayer-class) Layer that gathers the MapPolylines displayed in the map
 
@@ -138,8 +138,8 @@ adding polyline to the layer
 clear the polylines in the layer
 > void clearLine()
 
-### BusMap Class extends Map
+## BusMap Class extends Map
 
-### StopMap Class extends Map
+## StopMap Class extends Map
 
-### TripMap Class extends Map
+## TripMap Class extends Map
