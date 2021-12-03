@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripSearch {
+public class Request_SearchTrip {
     private static final String URL_ENDPOINT
             = "https://dev.virtualearth.net/REST/V1/Routes/Transit/"
             +"?wp.1={starting}"+"&wp.2={ending}"
