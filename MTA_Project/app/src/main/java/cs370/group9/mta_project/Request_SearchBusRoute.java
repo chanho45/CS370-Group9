@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BusRouteSearch {
+public class Request_SearchBusRoute {
     private static final String NYCT_ENDPOINT
             = "http://bustime.mta.info/api/where/route-ids-for-agency/MTA NYCT.json"
             + "?key=" + BuildConfig.MTA_KEY;

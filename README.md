@@ -143,3 +143,25 @@ clear the polylines in the layer
 ## StopMap Class extends Map
 
 ## TripMap Class extends Map
+
+
+
+# Request Handler
+
+## BusRouteSearch
+
+
+
+## LocalSearch
+
+## BusRouteSearch
+
+## BusRouteInfo
+
+## BusStopNear
+
+## BusPathRequest
+
+## SIRI_BusRequest
+
+## SIRI_StopRequest

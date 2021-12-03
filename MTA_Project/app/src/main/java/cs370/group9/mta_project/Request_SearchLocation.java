@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-class LocalSearch {
+class Request_SearchLocation {
 
     private static final String URL_ENDPOINT
             = "https://dev.virtualearth.net/REST/v1/LocalSearch/"

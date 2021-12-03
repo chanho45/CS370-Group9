@@ -75,7 +75,7 @@ public class TripSearch {
     }
 
     static void sendRequest(Context context,
-                            LocalSearch.Poi starting, LocalSearch.Poi ending,
+                            Request_SearchLocation.Poi starting, Request_SearchLocation.Poi ending,
                             Callback callback){
         if(starting == null || ending == null){
             Toast.makeText(context, "Invalid Input", Toast.LENGTH_LONG).show();
@@ -101,7 +101,7 @@ public class TripSearch {
         ));
     }
 
-    private static List<Route> parse(LocalSearch.Poi starting, LocalSearch.Poi ending, String json){
+    private static List<Route> parse(Request_SearchLocation.Poi starting, Request_SearchLocation.Poi ending, String json){
         List<Route> result = new ArrayList<Route>();
 
         try{

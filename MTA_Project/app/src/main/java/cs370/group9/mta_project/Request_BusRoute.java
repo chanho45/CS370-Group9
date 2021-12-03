@@ -11,7 +11,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-public class BusRouteInfo {
+public class Request_BusRoute {
     static final String URL_ENDPOINT
             ="http://bustime.mta.info/api/where/route/{bus_id}.json"
             +"?key="+BuildConfig.MTA_KEY;

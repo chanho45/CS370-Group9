@@ -19,7 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BusPathRequest {
+public class Request_BusPath {
     private static final String URL_ENDPOINT
             ="http://bustime.mta.info/api/where/stops-for-route/{bus_id}.json"
             +"?key=" + BuildConfig.MTA_KEY
