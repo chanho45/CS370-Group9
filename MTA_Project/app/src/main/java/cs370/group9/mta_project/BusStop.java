@@ -25,5 +25,6 @@ public class BusStop extends MapIcon {
     }
 
     public String getId() { return id; }
+    public String getName() { return this.getTitle(); }
     public BusRoute[] getRoutes(){ return routes; }
 }

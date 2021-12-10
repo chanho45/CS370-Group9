@@ -75,7 +75,8 @@ public class Request_SearchTrip {
     }
 
     static void sendRequest(Context context,
-                            Request_SearchLocation.Poi starting, Request_SearchLocation.Poi ending,
+                            Request_SearchLocation.Poi starting,
+                            Request_SearchLocation.Poi ending,
                             Callback callback){
         if(starting == null || ending == null){
             Toast.makeText(context, "Invalid Input", Toast.LENGTH_LONG).show();

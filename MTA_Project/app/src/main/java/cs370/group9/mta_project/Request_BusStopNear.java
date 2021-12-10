@@ -28,7 +28,7 @@ public class Request_BusStopNear {
         void onFailure();
     }
 
-    static void sendRequest(Geopoint location, Context context, Callback callback){
+    static void sendRequest(Context context, Geopoint location, Callback callback){
         if(location == null){
             Toast.makeText(context, "Invalid location", Toast.LENGTH_LONG).show();
             return;
