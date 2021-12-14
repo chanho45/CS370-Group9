@@ -3,6 +3,7 @@ package cs370.group9.mta_project;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationServices;
 import com.microsoft.maps.Geopoint;
 import com.microsoft.maps.MapAnimationKind;
 import com.microsoft.maps.MapFlyout;

@@ -2,6 +2,8 @@ package cs370.group9.mta_project;
 
 import android.content.Context;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.microsoft.maps.MapElementLayer;
 import com.microsoft.maps.MapIcon;
 import com.microsoft.maps.MapPolyline;
@@ -14,10 +16,13 @@ public class Map {
     private final MapView map;
     private final MapElementLayer pinLayer;
     private final MapElementLayer polylineLayer;
-    protected Context context;
+    protected final Context context;
 
-    public Map(Context context){
-        this.context=context;
+    protected FusedLocationProviderClient fusedLocationClient;
+    private int PERMISSION_ID = 42;
+
+    public Map(Context context) {
+        this.context = context;
         map = new MapView(context, MapRenderMode.VECTOR);
         polylineLayer = new MapElementLayer();
         pinLayer = new MapElementLayer();
@@ -25,29 +30,41 @@ public class Map {
         map.setCredentialsKey(BuildConfig.CREDENTIALS_KEY);
         map.getLayers().add(polylineLayer);
         map.getLayers().add(pinLayer);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
     }
 
-    public MapView getMapView(){ return map; }
+    public MapView getMapView() {
+        return map;
+    }
 
     // ======================== Pin ==============================
-    public void addPin(MapIcon pin){
+    public void addPin(MapIcon pin) {
         pinLayer.getElements().add(pin);
     }
-    public void addPin(List<MapIcon> pins){
-        for (MapIcon pin:pins)
+
+    public void addPin(List<MapIcon> pins) {
+        for (MapIcon pin : pins)
             pinLayer.getElements().add(pin);
     }
-    public void clearPin(){ pinLayer.getElements().clear(); }
+
+    public void clearPin() {
+        pinLayer.getElements().clear();
+    }
 
     // ====================== PolyLine ==========================
-    public void addLine(MapPolyline line){
+    public void addLine(MapPolyline line) {
         polylineLayer.getElements().add(line);
     }
-    public void addLine(List<MapPolyline> lines){
-        for (MapPolyline line:lines)
+
+    public void addLine(List<MapPolyline> lines) {
+        for (MapPolyline line : lines)
             polylineLayer.getElements().add(line);
     }
-    public void clearLine(){ polylineLayer.getElements().clear(); }
 
-    public void update(){}
+    public void clearLine() {
+        polylineLayer.getElements().clear();
+    }
+
+    public void update() {}
 }
