@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_page"
+        android:enabled="true"
+        android:icon="@drawable/home"
+        android:title="Home"
+        />
+    <item
+        android:id="@+id/bus_page"
+        android:enabled="true"
+        android:icon="@drawable/bus"
+        android:title="Bus Line"
+        />
+    <item
+        android:id="@+id/stop_page"
+        android:enabled="true"
+        android:icon="@drawable/stop"
+        android:title="Bus Stop"
+        />
+    <item
+        android:id="@+id/trip_page"
+        android:enabled="true"
+        android:icon="@drawable/trip"
+        android:title="Route"
+        />
+</menu>

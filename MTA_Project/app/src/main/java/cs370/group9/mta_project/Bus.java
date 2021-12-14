@@ -12,17 +12,22 @@ import com.microsoft.maps.MapImage;
 public class Bus extends MapIcon {
     private final BusRoute route;
 
-    public Bus(BusRoute route, Geopoint location, Context context){
+    public Bus(BusRoute route, Geopoint location, float bearing, Context context){
         super();
         this.route=route;
 
         this.setLocation(location);
         this.setTitle(route.getRouteNumber());
 
-        Bitmap icon = ColorChanger.changeBitmapColor(
-                BitmapFactory.decodeResource(context.getResources(), R.drawable.bus),
+        Bitmap icon = ImageChanger.changeBitmapColor(
+                BitmapFactory.decodeResource(context.getResources(), R.drawable.bus_pin),
                 route.getColor());
-        this.setImage(new MapImage(icon));
+        Bitmap arrow = ImageChanger.changeBitmapColor(
+                BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow),
+                route.getColor());
+        arrow = ImageChanger.rotateBitmap(arrow, 360-bearing);
+
+        this.setImage(new MapImage(ImageChanger.combineBitmap(icon, arrow)));
     }
 
     public BusRoute getRoute() {

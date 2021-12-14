@@ -8,12 +8,16 @@ import com.microsoft.maps.MapPolyline;
 import com.microsoft.maps.MapRenderMode;
 import com.microsoft.maps.MapView;
 
+import java.util.List;
+
 public class Map {
     private final MapView map;
     private final MapElementLayer pinLayer;
     private final MapElementLayer polylineLayer;
+    protected Context context;
 
     public Map(Context context){
+        this.context=context;
         map = new MapView(context, MapRenderMode.VECTOR);
         polylineLayer = new MapElementLayer();
         pinLayer = new MapElementLayer();
@@ -29,7 +33,7 @@ public class Map {
     public void addPin(MapIcon pin){
         pinLayer.getElements().add(pin);
     }
-    public void addPin(MapIcon[] pins){
+    public void addPin(List<MapIcon> pins){
         for (MapIcon pin:pins)
             pinLayer.getElements().add(pin);
     }
@@ -39,9 +43,11 @@ public class Map {
     public void addLine(MapPolyline line){
         polylineLayer.getElements().add(line);
     }
-    public void addLine(MapPolyline[] lines){
+    public void addLine(List<MapPolyline> lines){
         for (MapPolyline line:lines)
             polylineLayer.getElements().add(line);
     }
     public void clearLine(){ polylineLayer.getElements().clear(); }
+
+    public void update(){}
 }

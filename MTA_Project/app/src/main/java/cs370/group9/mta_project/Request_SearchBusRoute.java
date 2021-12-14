@@ -17,10 +17,10 @@ import java.util.List;
 
 public class Request_SearchBusRoute {
     private static final String NYCT_ENDPOINT
-            = "http://bustime.mta.info/api/where/route-ids-for-agency/MTA NYCT.json"
+            = "https://bustime.mta.info/api/where/route-ids-for-agency/MTA NYCT.json"
             + "?key=" + BuildConfig.MTA_KEY;
     private static final String MTABC_ENDPOINT
-            = "http://bustime.mta.info/api/where/route-ids-for-agency/MTABC.json"
+            = "https://bustime.mta.info/api/where/route-ids-for-agency/MTABC.json"
             + "?key=" + BuildConfig.MTA_KEY;
 
     interface Callback {
@@ -40,7 +40,9 @@ public class Request_SearchBusRoute {
                 Request.Method.GET,
                 NYCT_ENDPOINT,
                 (String response) -> {
+                    System.out.println(response);
                     List<String> results = parse(response, query);
+
 
                     // do MTABC too
                     queue.add(new StringRequest(
@@ -57,6 +59,7 @@ public class Request_SearchBusRoute {
                             },
                             (VolleyError error) -> callback.onFailure()
                     ));
+
                 },
                 (VolleyError error) -> callback.onFailure()
         ));
@@ -72,7 +75,8 @@ public class Request_SearchBusRoute {
 
             for(int i = 0; i < listJArr.length(); i++){
                 // if exact match, send it to top
-                if(listJArr.getString(i).equals(query)){
+                if(listJArr.getString(i).equals("MTA NYCT_"+query)
+                        || listJArr.getString(i).equals("MTABC_"+query)){
                     result.add(0, listJArr.getString(i));
                 } // otherwise, add it to the bottom
                 else if(listJArr.getString(i).contains(query)){

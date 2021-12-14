@@ -3,17 +3,20 @@ package cs370.group9.mta_project;
 import android.content.Context;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.sql.Timestamp;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.junit.Assert.assertEquals;
 
-public class Request_BusRoutePinsTest {
+@RunWith(AndroidJUnit4.class)
+public class Request_BusRoutePinsTest{
 
     @Test
-    public void sendRequest() {
+    public void testSendRequest() {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("cs370.group9.mta_project", appContext.getPackageName());
 
@@ -31,6 +34,9 @@ public class Request_BusRoutePinsTest {
         });
     }
 
+    
+    
+    
     private void PrintResult(SIRI_Result result){
         String vFormat = "{name} ({direction}): <{location}>\n"
                 +"{distance} m away from stop\n"
@@ -51,7 +57,7 @@ public class Request_BusRoutePinsTest {
                     .replace("{aimedTime}", vehicle.aimedTime.toString())
                     .replace("{ExpectedTime}", vehicle.expectedTime.toString()));
             // situation of each vehicle
-            if(vehicle.situationRef != null && vehicle.situationRef.length > 0){
+            if(vehicle.situationRef != null && !vehicle.situationRef.isEmpty()){
                 for(String ref: vehicle.situationRef){
                     for(SIRI_Result.Situation situation: result.getSituations())
                         if(situation.SituationNumber != null || situation.SituationNumber.equals(ref))
@@ -62,7 +68,7 @@ public class Request_BusRoutePinsTest {
             }
         }
         // Situations
-        if(result.getSituations() != null && result.getSituations().length > 0){
+        if(result.getSituations() != null && !result.getSituations().isEmpty()){
             System.out.println("Vehicles:");
             for(SIRI_Result.Situation situation: result.getSituations()){
                 System.out.println(sFormat

@@ -17,7 +17,7 @@ android {
         versionName "1.0"
 
         //testApplicationId "cs370.group9.mta_project"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
         testHandleProfiling true
         testFunctionalTest true
     }

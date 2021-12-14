@@ -74,18 +74,34 @@ public class Request_StopPins {
                 JSONObject VehicleJObj = VehicleMonitorJObj.getJSONObject("MonitoredVehicleJourney");
 
                 SIRI_Result.Vehicle vehicle = new SIRI_Result.Vehicle();
+                // name
                 vehicle.name = VehicleJObj.getJSONArray("PublishedLineName").getString(0);
+                // direction
                 vehicle.direction = Integer.parseInt(VehicleJObj.getString("DirectionRef"));
-
+                // bearing
+                vehicle.bearing = (float) VehicleJObj.getDouble("Bearing");
+                // location
                 JSONObject vehicleLocationJObj = VehicleJObj.getJSONObject("VehicleLocation");
                 Geopoint location = new Geopoint(
                         vehicleLocationJObj.getDouble("Latitude")
                         ,vehicleLocationJObj.getDouble("Longitude"));
                 vehicle.location = location;
 
+                // monitored call
                 JSONObject monitoredCallJObj = VehicleJObj.getJSONObject("MonitoredCall");
-                vehicle.aimedTime = Timestamp.valueOf(monitoredCallJObj.getString("AimedArrivalTime"));
-                vehicle.expectedTime = Timestamp.valueOf(monitoredCallJObj.getString("ExpectedArrivalTime"));
+                // aimed time
+                vehicle.aimedTime = Timestamp.valueOf(
+                        monitoredCallJObj.getString("AimedArrivalTime")
+                                .replace("T", " ")
+                                .replace("-05:00", ""));
+                // expected time
+                if(!monitoredCallJObj.isNull("ExpectedArrivalTime")) {
+                    vehicle.expectedTime = Timestamp.valueOf(
+                            monitoredCallJObj.getString("ExpectedArrivalTime")
+                                    .replace("T", " ")
+                                    .replace("-05:00", ""));
+                }
+                // distance
                 vehicle.distance = monitoredCallJObj.getInt("DistanceFromStop");
 
                 // Situation Ref
@@ -96,12 +112,12 @@ public class Request_StopPins {
                         JSONObject situationRefJObj = situationRefJArr.getJSONObject(j);
                         situationRef.add(situationRefJObj.getString("SituationSimpleRef"));
                     }
-                    vehicle.situationRef = (String[]) situationRef.toArray();
+                    vehicle.situationRef = situationRef;
                 }
 
                 vehicles.add(vehicle);
             }
-            result.setVehicles((SIRI_Result.Vehicle[]) vehicles.toArray());
+            result.setVehicles(vehicles);
 
             // situation
             if(!serviceJObj.isNull("SituationExchangeDelivery")) {
@@ -121,7 +137,7 @@ public class Request_StopPins {
                     situations.add(situation);
                 }
 
-                result.setSituations((SIRI_Result.Situation[]) situations.toArray());
+                result.setSituations(situations);
             }
 
         }catch (Exception e){

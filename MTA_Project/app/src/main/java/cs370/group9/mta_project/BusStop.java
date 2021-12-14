@@ -20,7 +20,7 @@ public class BusStop extends MapIcon {
         this.setLocation(location);
         this.setTitle(name);
 
-        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.stop);
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.stop_pin);
         this.setImage(new MapImage(icon));
     }
 

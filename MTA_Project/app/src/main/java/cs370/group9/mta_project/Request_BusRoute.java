@@ -13,8 +13,9 @@ import org.json.JSONObject;
 
 public class Request_BusRoute {
     static final String URL_ENDPOINT
-            ="http://bustime.mta.info/api/where/route/{bus_id}.json"
-            +"?key="+BuildConfig.MTA_KEY;
+            ="https://bustime.mta.info/api/where/route/{bus_id}.json"
+            +"?key="+BuildConfig.MTA_KEY
+            +"&version=2";
 
     interface Callback {
         void onSuccess(BusRoute busRoute);
@@ -32,6 +33,9 @@ public class Request_BusRoute {
                 Request.Method.GET,
                 URL_ENDPOINT.replace("{bus_id}", id),
                 (String response) ->{
+                    //TEST
+                    //Toast.makeText(context, "Request Success", Toast.LENGTH_SHORT).show();
+
                     BusRoute result = parse(response);
                     if(result == null){
                         callback.onFailure();
@@ -49,15 +53,16 @@ public class Request_BusRoute {
         try{
             JSONObject responseJObj = new JSONObject(json);
             JSONObject responseData = responseJObj.getJSONObject("data");
+            JSONObject responseEntry = responseData.getJSONObject("entry");
 
-            result = new BusRoute(responseData.getString("id"));
+            result = new BusRoute(responseEntry.getString("id"));
             result.setColor(Integer.parseInt(
-                    responseData.getString("color"),
+                    responseEntry.getString("color"),
                     16
             ));
-            result.setName(responseData.getString("longName"));
-            result.setRouteNumber(responseData.getString("shortName"));
-            result.setDescription(responseData.getString("description"));
+            result.setName(responseEntry.getString("longName"));
+            result.setRouteNumber(responseEntry.getString("shortName"));
+            result.setDescription(responseEntry.getString("description"));
         }catch (Exception e){
             return null;
         }

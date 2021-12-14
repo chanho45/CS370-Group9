@@ -10,7 +10,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.PolyUtil;
-import com.microsoft.maps.Geopoint;
+import com.microsoft.maps.Geopath;
+import com.microsoft.maps.Geoposition;
 import com.microsoft.maps.MapPolyline;
 
 import org.json.JSONArray;
@@ -21,16 +22,17 @@ import java.util.List;
 
 public class Request_BusPath {
     private static final String URL_ENDPOINT
-            ="http://bustime.mta.info/api/where/stops-for-route/{bus_id}.json"
+            ="https://bustime.mta.info/api/where/stops-for-route/{bus_id}.json"
             +"?key=" + BuildConfig.MTA_KEY
             +"&includePolylines=true" + "&version=2";
 
     static class RoutePath{
-        MapPolyline polyline;
-        List<BusStop> stops;
+        List<MapPolyline> polyline;
+        List<String> stopIds;
     }
+
     interface Callback{
-        void onSuccess(RoutePath result);
+        void onSuccess(List<RoutePath> result);
         void onFailure();
     }
 
@@ -45,7 +47,10 @@ public class Request_BusPath {
                 Request.Method.GET,
                 URL_ENDPOINT.replace("{bus_id}", bus_id),
                 (String res) -> {
-                    RoutePath result = parse(res);
+                    // TEST
+                    Toast.makeText(context, "Request Success", Toast.LENGTH_SHORT);
+
+                    List<RoutePath> result = parse(res);
                     if(result == null){
                         callback.onFailure();
                         return;
@@ -56,25 +61,79 @@ public class Request_BusPath {
         ));
     }
 
-    private static RoutePath parse(String json){
-        RoutePath result = new RoutePath();
+    private static List<RoutePath> parse(String json){
+        List<RoutePath> result = new ArrayList<RoutePath>();
 
         try{
             JSONObject responseJObj = new JSONObject(json);
             JSONObject dataJObj = responseJObj.getJSONObject("data");
             JSONObject entryJObj = dataJObj.getJSONObject("entry");
 
+            JSONArray stopGJArr = entryJObj.getJSONArray("stopGroupings");
+            JSONObject stopGroupJObj = stopGJArr.getJSONObject(0);
+
+            // path and stops for each direction
+            JSONArray stopGroupJArr = stopGroupJObj.getJSONArray("stopGroups");
+            for(int i=0; i<stopGroupJArr.length(); i++)
+                result.add(new RoutePath());
+            for(int i=0; i<stopGroupJArr.length(); i++){
+                JSONObject directionJObj = stopGroupJArr.getJSONObject(i);
+
+                // direction id
+                int direction = Integer.parseInt(
+                        directionJObj.getString("id"));
+
+                // get polylines
+                List<MapPolyline> polylines = new ArrayList<MapPolyline>();
+                JSONArray polylineJArr = directionJObj.getJSONArray("polylines");
+                for (int j = 0; j < polylineJArr.length(); j++){
+                    JSONObject polylineJObj = polylineJArr.getJSONObject(j);
+                    String polyString = polylineJObj.getString("points");
+
+                    List<Geoposition> points = new ArrayList<Geoposition>();
+                    List<LatLng> polyLatLons = PolyUtil.decode(polyString);
+                    for(LatLng latLng: polyLatLons){
+                        points.add(LatLng2Geoposition(latLng));
+                    }
+                    MapPolyline polyline = new MapPolyline();
+                    polyline.setPath(new Geopath(points));
+
+                    polylines.add(polyline);
+                }
+                result.get(direction).polyline = polylines;
+
+                // get stops
+                List<String> stopIds = new ArrayList<String>();
+                JSONArray stopIdJArr = directionJObj.getJSONArray("stopIds");
+                for(int j=0; j< stopIdJArr.length(); j++){
+                    stopIds.add(stopIdJArr.getString(j));
+                }
+                result.get(direction).stopIds = stopIds;
+            }
+
+            ///*
             JSONArray polylineJArr = entryJObj.getJSONArray("polylines");
-            List<Geopoint> points = new ArrayList<Geopoint>();
+            List<MapPolyline> polylines = new ArrayList<MapPolyline>();
             for(int i = 0; i < polylineJArr.length(); i++){
                 JSONObject polylineJObj = polylineJArr.getJSONObject(i);
                 String polyString = polylineJObj.getString("points");
 
+                List<Geoposition> points = new ArrayList<Geoposition>();
                 List<LatLng> polyLatLons = PolyUtil.decode(polyString);
                 for(LatLng latLng: polyLatLons){
-                    points.add(LatLng2Geopoint(latLng));
+                    points.add(LatLng2Geoposition(latLng));
                 }
+                MapPolyline polyline = new MapPolyline();
+                polyline.setPath(new Geopath(points));
+
+                polylines.add(polyline);
             }
+
+            RoutePath routePath = new RoutePath();
+            routePath.polyline = polylines;
+
+            result.add(routePath);
+            //*/
         }catch (Exception e){
             return null;
         }
@@ -82,7 +141,7 @@ public class Request_BusPath {
         return result;
     }
 
-    private static Geopoint LatLng2Geopoint(LatLng latLng){
-        return new Geopoint(latLng.latitude, latLng.longitude);
+    private static Geoposition LatLng2Geoposition(LatLng latLng){
+        return new Geoposition(latLng.latitude, latLng.longitude);
     }
 }
