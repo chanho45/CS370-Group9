@@ -100,7 +100,11 @@ public class Page_Bus extends Fragment {
                                         new Request_BusRoute.Callback() {
                                     @Override
                                     public void onSuccess(BusRoute busRoute) {
-                                        arrayAdapter.add(busRoute);
+                                        if(results.indexOf(id) < arrayAdapter.getCount()){
+                                            arrayAdapter.insert(busRoute, results.indexOf(id));
+                                        }else {
+                                            arrayAdapter.add(busRoute);
+                                        }
                                     }
 
                                     @Override
