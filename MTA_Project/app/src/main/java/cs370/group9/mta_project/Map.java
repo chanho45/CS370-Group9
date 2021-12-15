@@ -2,8 +2,6 @@ package cs370.group9.mta_project;
 
 import android.content.Context;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.microsoft.maps.MapElementLayer;
 import com.microsoft.maps.MapIcon;
 import com.microsoft.maps.MapPolyline;
@@ -18,9 +16,6 @@ public class Map {
     private final MapElementLayer polylineLayer;
     protected final Context context;
 
-    protected FusedLocationProviderClient fusedLocationClient;
-    private int PERMISSION_ID = 42;
-
     public Map(Context context) {
         this.context = context;
         map = new MapView(context, MapRenderMode.VECTOR);
@@ -30,8 +25,6 @@ public class Map {
         map.setCredentialsKey(BuildConfig.CREDENTIALS_KEY);
         map.getLayers().add(polylineLayer);
         map.getLayers().add(pinLayer);
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
     }
 
     public MapView getMapView() {
